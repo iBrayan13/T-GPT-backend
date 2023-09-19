@@ -1,7 +1,5 @@
-from flask import Flask
+from fastapi import FastAPI
+from src.routes import ChatRoutes
 
 # Creating app
-app = Flask(__name__)
-
-if __name__ == "__main__":
-    app.run(debug=True)
+app = FastAPI()
