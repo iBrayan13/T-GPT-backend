@@ -1,8 +1,10 @@
-from fastapi import APIRouter, HTTPException, status, Request
+from fastapi import APIRouter, HTTPException, status, Request, Depends
 from src.services.ChatServices import ChatService
+from src.utils.security import Security
 
 router = APIRouter()
 service = ChatService()
+security = Security()
 
 @router.get("/get-answer")
 async def get_answer(request: Request) -> dict:
@@ -14,8 +16,15 @@ async def get_answer(request: Request) -> dict:
             headers= {"content-type": "application/json"}
         )
     
-    ans =service.make_question(data["question"])
+    ans = service.make_question(data["question"])
+    if not len(ans) > 0:
+        raise HTTPException(
+            status_code= status.HTTP_204_NO_CONTENT,
+            detail= "Something was wrong during communication with GPT",
+            headers= {"content-type": "applications/json"}
+        )
 
     return {
-        "answer": ans
+        "answer": ans,
+        "len": len(ans)
     }

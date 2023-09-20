@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.routes import ChatRouters
+from src.routers import ChatRouters
 
 # Creating app
 app = FastAPI()
