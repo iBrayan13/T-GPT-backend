@@ -16,12 +16,15 @@ class ChatService:
         Returns:
             str: answer by chatgpt.
         """
-        completion = openai.Completion.create(
-            engine= cls.GPT_ENGINE,
-            prompt= question,
-            max_tokens= 2048
-        )
+        try:
+            completion = openai.Completion.create(
+                engine= cls.GPT_ENGINE,
+                prompt= question,
+                max_tokens= 2048
+            )
 
-        answer =  completion.choices[0].text
-
-        return answer
+            return completion.choices[0].text
+            
+        except Exception as ex:
+            print(ex)
+            return ""
