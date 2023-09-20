@@ -5,4 +5,4 @@ from src.routers import ChatRouters
 app = FastAPI()
 
 # Including routers
-app.include_router(ChatRouters.router, prefix= "/chat")
+app.include_router(ChatRouters.router, prefix= "/chat", tags= ["Chat"])

@@ -15,6 +15,11 @@ class Security:
 
     @classmethod
     def generate_token(cls) -> str:
+        """Generate a new token to get access for asking GPT.
+
+        Returns:
+            str: JSON Web Token.
+        """
         try:
             payload = {
                 "engine": cls.GPT_ENGINE,
@@ -34,23 +39,35 @@ class Security:
 
     @classmethod
     def verify_token(cls, token:str = Depends(oauth)) -> bool:
-        payload = jwt.decode(
-            token,
-            key= cls.JWT_SECRET_KEY,
-            algorithms= [cls.JWT_ALGORITHM]
-        )
+        """Verify JSON Web Token.
 
-        conditions = [
-            len(payload) == 3,
-            "engine" in payload,
-            payload["engine"] == cls.GPT_ENGINE,
-            "provideer" in payload,
-            payload["provideer"] == cls.PROVIDEER,
-            "exp" in payload,
-        ]
+        Args:
+            token (str, optional): token to verify. Defaults to Depends(oauth).
 
-        for condition in conditions:
-            if not condition:
-                return condition
-        
-        return True
+        Returns:
+            bool: flag to continue.
+        """
+        try:
+            payload = jwt.decode(
+                token,
+                key= cls.JWT_SECRET_KEY,
+                algorithms= [cls.JWT_ALGORITHM]
+            )
+
+            conditions = [
+                len(payload) == 3,
+                "engine" in payload,
+                payload["engine"] == cls.GPT_ENGINE,
+                "provideer" in payload,
+                payload["provideer"] == cls.PROVIDEER,
+                "exp" in payload,
+            ]
+
+            for condition in conditions:
+                if not condition:
+                    return condition
+            
+            return True
+        except Exception as ex:
+            print(ex)
+            return False
