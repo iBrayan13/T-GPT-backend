@@ -48,12 +48,14 @@ class Security:
             bool: flag to continue.
         """
         try:
+            # Getting payload
             payload = jwt.decode(
                 token,
                 key= cls.JWT_SECRET_KEY,
                 algorithms= [cls.JWT_ALGORITHM]
             )
 
+            # Verifying payload
             conditions = [
                 len(payload) == 3,
                 "engine" in payload,
@@ -63,7 +65,8 @@ class Security:
             for condition in conditions:
                 if not condition:
                     return condition
-                
+            
+            # Verifying payload again
             extra_conditions = [
                 payload["engine"] == cls.GPT_ENGINE,
                 payload["provideer"] == cls.PROVIDEER

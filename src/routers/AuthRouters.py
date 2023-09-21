@@ -5,10 +5,10 @@ from src.utils.security import Security
 router = APIRouter()
 security = Security()
 
-@router.get("/get-access")
+@router.get("/get-access", status_code= status.HTTP_202_ACCEPTED)
 async def get_access_token(request: Request) -> dict:
+    # Getting and verifying data
     data = await request.json()
-
     conditions = [
         len(data) == 4,
         "key" in data,
@@ -24,6 +24,7 @@ async def get_access_token(request: Request) -> dict:
                 headers= {"content-type": "application/json"}
             )
     
+    # Verifying again
     extra_conditions = [
         data["key"] == config("KEY"),
         data["engine"] == config("GPT_ENGINE"),
@@ -38,6 +39,7 @@ async def get_access_token(request: Request) -> dict:
                 headers= {"content-type": "application/json"}
             )
     
+    # Getting token
     token = security.generate_token()
     if not len(token) > 1:
         raise HTTPException(
