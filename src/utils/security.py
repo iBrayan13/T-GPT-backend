@@ -57,15 +57,20 @@ class Security:
             conditions = [
                 len(payload) == 3,
                 "engine" in payload,
-                payload["engine"] == cls.GPT_ENGINE,
                 "provideer" in payload,
-                payload["provideer"] == cls.PROVIDEER,
-                "exp" in payload,
+                "exp" in payload
             ]
-
             for condition in conditions:
                 if not condition:
                     return condition
+                
+            extra_conditions = [
+                payload["engine"] == cls.GPT_ENGINE,
+                payload["provideer"] == cls.PROVIDEER
+            ]
+            for extra_condition in extra_conditions:
+                if not extra_condition:
+                    return extra_condition
             
             return True
         except Exception as ex:
