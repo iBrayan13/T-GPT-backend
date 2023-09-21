@@ -22,9 +22,11 @@ class ChatService:
                 prompt= question,
                 max_tokens= 2048
             )
-
-            return completion.choices[0].text
+            
+            answer = completion.choices[0].text
+            return f"{answer} \n\nImpulsado por Flying to GPT"
             
         except Exception as ex:
             print(ex)
+            print(type(ex))
             return ""

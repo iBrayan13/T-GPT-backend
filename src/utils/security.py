@@ -78,4 +78,5 @@ class Security:
             return True
         except Exception as ex:
             print(ex)
+            print(type(ex))
             return False

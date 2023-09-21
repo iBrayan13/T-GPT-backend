@@ -6,7 +6,7 @@ router = APIRouter()
 service = ChatService()
 security = Security()
 
-@router.get("/get-answer", status_code= status.HTTP_200_OK)
+@router.post("/get-answer", status_code= status.HTTP_200_OK)
 async def get_answer(request: Request, has_access: bool = Depends(security.verify_token)) -> dict:
     # Verifying JWT
     if not has_access:

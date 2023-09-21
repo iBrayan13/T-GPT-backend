@@ -5,7 +5,7 @@ from src.utils.security import Security
 router = APIRouter()
 security = Security()
 
-@router.get("/get-access", status_code= status.HTTP_202_ACCEPTED)
+@router.post("/get-access", status_code= status.HTTP_202_ACCEPTED)
 async def get_access_token(request: Request) -> dict:
     # Getting and verifying data
     data = await request.json()
