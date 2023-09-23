@@ -24,7 +24,7 @@ class ChatService:
             )
             
             answer = completion.choices[0].text
-            return f"{answer} \n\nImpulsado por Flying to GPT"
+            return f"{answer} \n\nObtenido por #T-GPT"
             
         except Exception as ex:
             print(ex)
